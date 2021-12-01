@@ -1,8 +1,12 @@
 defmodule Day1 do
-  def countIncreasedDepth(inputPath) do
-    {:ok, file} = File.read(inputPath)
-    list = file|> String.split("\n") |> Enum.map(&String.to_integer/1)
+  def countIncreasedDepth(inputPath, windowSize) do
+    fileToIntegerList(inputPath)
+      |> Enum.chunk_every(windowSize, 1, :discard)
+      |> Enum.map(&Enum.sum/1)
+      |> countIncreasing()
+  end
 
+  defp countIncreasing(list) do
     list
       |> Enum.with_index
       |> Enum.reduce(0, fn({x, i}, acc) ->
@@ -10,20 +14,8 @@ defmodule Day1 do
       end)
   end
 
-  def countIncreasedDepthBySlidingWindow(inputPath) do
+  defp fileToIntegerList(inputPath) do
     {:ok, file} = File.read(inputPath)
-    list = file|> String.split("\n") |> Enum.map(&String.to_integer/1)
-
-    list
-      |> Enum.with_index
-      |> Enum.reduce(0, fn({x, i}, acc) ->
-        if (i + 3 > length(list) - 1) do
-          acc
-        else
-          slidingWindowOne = Enum.slice(list, i..i+2) |> Enum.sum()
-          slidingWindowTwo = Enum.slice(list, i+1..i+3) |> Enum.sum()
-          if (slidingWindowTwo > slidingWindowOne), do: acc + 1, else: acc
-        end
-      end)
+    file|> String.split("\n") |> Enum.map(&String.to_integer/1)
   end
 end
