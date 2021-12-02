@@ -16,6 +16,22 @@ defmodule Day2 do
       end)
   end
 
+  def calculatePositionAtEndOfPlottedCourseWithAim(inputPath) do
+    fileToIntegerList(inputPath)
+      |> Enum.reduce({0, 0, 0}, fn(plot), {horizontalPosition, depth, aim} ->
+        [command, valueString] = String.split(plot)
+        value = String.to_integer(valueString)
+        cond do
+          command == "forward" -> { horizontalPosition + value, depth + (aim * value), aim }
+          command == "down" -> { horizontalPosition, depth, aim + value }
+          command == "up" -> { horizontalPosition, depth, aim - value }
+        end
+      end)
+      |> Tuple.to_list
+      |> Enum.slice(0..1)
+      |> Enum.product()
+  end
+
   defp fileToIntegerList(inputPath) do
     {:ok, file} = File.read(inputPath)
     file |> String.split("\n")
