@@ -1,23 +1,23 @@
 defmodule Day2 do
   def calculatePositionAtEndOfPlottedCourse(inputPath) do
     fileToIntegerList(inputPath)
-      |> Enum.map(fn(plot) ->
-        [command, value] = String.split(plot)
-        case command do
-          "forward" -> {String.to_integer(value), 0}
-          "down" -> {0, String.to_integer(value)}
-          "up" -> {0, -String.to_integer(value)}
+    # using a map
+      |> Enum.reduce(%{x: 0, y: 0}, fn(plot), %{x: horizontalPosition, y: depth} ->
+        [command, valueString] = String.split(plot)
+        value = String.to_integer(valueString)
+        cond do
+          command == "forward" -> %{ x: horizontalPosition + value, y: depth }
+          command == "down" -> %{ x: horizontalPosition, y: depth + value }
+          command == "up" -> %{ x: horizontalPosition, y: depth - value }
         end
       end)
-      |> Enum.unzip
-      |> Tuple.to_list
-      |> Enum.reduce(1, fn(list, acc) ->
-        acc * Enum.sum(list)
-      end)
+      |> Map.values
+      |> Enum.product
   end
 
   def calculatePositionAtEndOfPlottedCourseWithAim(inputPath) do
     fileToIntegerList(inputPath)
+    # using a list
       |> Enum.reduce({0, 0, 0}, fn(plot), {horizontalPosition, depth, aim} ->
         [command, valueString] = String.split(plot)
         value = String.to_integer(valueString)
