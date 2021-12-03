@@ -1,6 +1,7 @@
-defmodule Day1 do
+defmodule AoC2021.Day1 do
   def countIncreasedDepth(inputPath, windowSize) do
-    fileToIntegerList(inputPath)
+    AoC2021.readFileAsListLineByLine(inputPath)
+      |> Enum.map(&String.to_integer/1)
       |> Enum.chunk_every(windowSize, 1, :discard)
       |> Enum.map(&Enum.sum/1)
       |> countIncreasing()
@@ -12,10 +13,5 @@ defmodule Day1 do
       |> Enum.reduce(0, fn({x, i}, acc) ->
         if (x > Enum.at(list, i - 1)), do: acc + 1, else: acc
       end)
-  end
-
-  defp fileToIntegerList(inputPath) do
-    {:ok, file} = File.read(inputPath)
-    file|> String.split("\n") |> Enum.map(&String.to_integer/1)
   end
 end

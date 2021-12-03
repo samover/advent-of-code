@@ -1,6 +1,6 @@
-defmodule Day2 do
+defmodule AoC2021.Day2 do
   def calculatePositionAtEndOfPlottedCourse(inputPath) do
-    fileToIntegerList(inputPath)
+    AoC2021.readFileAsListLineByLine(inputPath)
     # using a map
       |> Enum.reduce(%{x: 0, y: 0}, fn(plot), %{x: horizontalPosition, y: depth} ->
         [command, valueString] = String.split(plot)
@@ -16,7 +16,7 @@ defmodule Day2 do
   end
 
   def calculatePositionAtEndOfPlottedCourseWithAim(inputPath) do
-    fileToIntegerList(inputPath)
+    AoC2021.readFileAsListLineByLine(inputPath)
     # using a list
       |> Enum.reduce({0, 0, 0}, fn(plot), {horizontalPosition, depth, aim} ->
         [command, valueString] = String.split(plot)
@@ -30,10 +30,5 @@ defmodule Day2 do
       |> Tuple.to_list
       |> Enum.slice(0..1)
       |> Enum.product()
-  end
-
-  defp fileToIntegerList(inputPath) do
-    {:ok, file} = File.read(inputPath)
-    file |> String.split("\n")
   end
 end
