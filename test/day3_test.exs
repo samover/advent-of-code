@@ -1,20 +1,20 @@
-defmodule Day2Test do
+defmodule Day3Test do
   use ExUnit.Case
   doctest AoC2021.Day3
 
   test "test input" do
-    assert AoC2021.Day3.calculatePositionAtEndOfPlottedCourse(Path.expand("./test/resources/day2_test_input")) == 150
+    assert AoC2021.Day3.calculatePowerConsumption(Path.expand("./test/resources/day3_test_input")) == 198
   end
 
-  # test "real input" do
-  #   assert Day2.calculatePositionAtEndOfPlottedCourse(Path.expand("./test/resources/day2_real_input")) == 1451208
-  # end
+  test "real input" do
+    assert AoC2021.Day3.calculatePowerConsumption(Path.expand("./test/resources/day3_real_input")) == 3309596
+  end
 
-  # test "test input with aim" do
-  #   assert Day2.calculatePositionAtEndOfPlottedCourseWithAim(Path.expand("./test/resources/day2_test_input")) == 900
-  # end
+  test "test input to verify LifeSupportRating" do
+    assert AoC2021.Day3.verifyLifeSupportRating(Path.expand("./test/resources/day3_test_input")) == 230
+  end
 
-  # test "real input with aim" do
-  #   assert Day2.calculatePositionAtEndOfPlottedCourseWithAim(Path.expand("./test/resources/day2_real_input")) == 1620141160
-  # end
+  test "real input to verify LifeSupportRating" do
+    assert AoC2021.Day3.verifyLifeSupportRating(Path.expand("./test/resources/day3_real_input")) == 230
+  end
 end
