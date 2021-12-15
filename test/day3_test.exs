@@ -15,6 +15,6 @@ defmodule Day3Test do
   end
 
   test "real input to verify LifeSupportRating" do
-    assert AoC2021.Day3.verifyLifeSupportRating(Path.expand("./test/resources/day3_real_input")) == 230
+    assert AoC2021.Day3.verifyLifeSupportRating(Path.expand("./test/resources/day3_real_input")) == 2981085
   end
 end
