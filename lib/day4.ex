@@ -1,35 +1,17 @@
 defmodule AoC2021.Day4 do
-  def playBingo(:getWinner, inputPath) do
+  def playBingo(boardToGet, inputPath) do
     [head | tail] = AoC2021.readFileAsListLineByLine(inputPath)
-    { winningBoard, winningNumber } = bingoCarousel(parseBingoNumbers(head), parseBingoBoards(tail))
-    if (!is_nil(winningBoard)), do: calculateFinalScore(winningNumber, winningBoard), else: 0
+    { resultingBoard, bingoNumber } = bingoCarousel(parseBingoNumbers(head), parseBingoBoards(tail), boardToGet)
+    if (!is_nil(resultingBoard)), do: calculateFinalScore(bingoNumber, resultingBoard), else: 0
   end
 
-  def playBingo(:getLoser, inputPath) do
-    [head | tail] = AoC2021.readFileAsListLineByLine(inputPath)
-    { lastBoardToWin, winningNumber } = playUntilOneLoser(parseBingoNumbers(head), parseBingoBoards(tail))
-    if (!is_nil(lastBoardToWin)), do: calculateFinalScore(winningNumber, lastBoardToWin), else: 0
-  end
-
-  def playUntilOneLoser(numbers, boards) do
-    [currentNumber | remainingNumbers] = numbers
+  def bingoCarousel([currentNumber | remainingNumbers], boards, boardToGet) do
     { winningBoard, boardsStillInPlay } = playBingoRound(currentNumber, boards)
     
-    if (AoC2021.is_empty?(boardsStillInPlay)) do 
-      { winningBoard, currentNumber }
-    else
-      playUntilOneLoser(remainingNumbers, boardsStillInPlay)
-    end
-  end
-
-  def bingoCarousel(numbers, boards) do
-    [currentNumber | remainingNumbers] = numbers
-    { winningBoard, boardsStillInPlay } = playBingoRound(currentNumber, boards)
-
-    if (!AoC2021.is_empty?(winningBoard)) do 
-      { winningBoard, currentNumber }
-    else
-      bingoCarousel(remainingNumbers, boardsStillInPlay)
+    cond do
+     boardToGet == :getLoser && AoC2021.is_empty?(boardsStillInPlay) -> { winningBoard, currentNumber }
+     boardToGet == :getWinner && !AoC2021.is_empty?(winningBoard) -> { winningBoard, currentNumber }
+     true -> bingoCarousel(remainingNumbers, boardsStillInPlay, boardToGet)
     end
   end
 
