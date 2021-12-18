@@ -14,9 +14,9 @@ defmodule AoC2021.Day5 do
       |> countDangerPoints
   end
 
-  def countDangerPoints(map) do
-      Enum.frequencies(map)
-      |> Enum.filter(fn({key, val}) -> val > 1 end)
+  def countDangerPoints(points) do
+      Enum.frequencies(points)
+      |> Enum.filter(fn({_, val}) -> val > 1 end)
       |> Enum.count
   end
 
