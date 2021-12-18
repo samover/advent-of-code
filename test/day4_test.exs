@@ -11,7 +11,7 @@ defmodule Day4Test do
   end
 
   test "test input - losing board" do
-    assert AoC2021.Day4.playBingo(:getLoser, Path.expand("./test/resources/day4_test_input")) == 1924
+    assert AoC2021.Day4.playBingo(:getLoser, Path.expand("./test/resources/day4_test_input")) == 12
   end
 
   test "test real input - losing board" do

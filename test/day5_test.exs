@@ -2,13 +2,20 @@ defmodule Day5Test do
   use ExUnit.Case
   doctest AoC2021.Day5
 
-  test "test input - winning board" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_test_input")) == 5
+  test "test input - find hydrothermal vents (no diagonals)" do
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_test_input"), :noDiagonals) == 5
   end
 
-  @tag timeout: :infinity
-  test "test real input - winning board" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_real_input")) == 5084
+  test "real input - find hydrothermal vents (no diagonals)" do
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_real_input"), :noDiagonals) == 5084
+  end
+
+  test "test input - find hydrothermal vents (with diagonals)" do
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_test_input")) == 12
+  end
+
+  test "real input - find hydrothermal vents (with diagonals)" do
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_real_input")) == 17882
   end
 
   describe "drawLine" do
