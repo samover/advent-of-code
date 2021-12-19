@@ -4,6 +4,12 @@ defmodule AoC2021 do
     file|> String.split("\n")
   end
 
+  def readFileAndParseFirstLineAsIntegerList(inputPath) do
+    readFileAsListLineByLine(inputPath) |> List.first
+      |> String.split(",")
+      |> Enum.map(&String.to_integer/1)
+  end
+
   def multiply(a,b) when is_nil(a) or is_nil(b), do: nil
   def multiply(a, b), do: a * b
 
