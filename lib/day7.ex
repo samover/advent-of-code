@@ -1,13 +1,13 @@
 defmodule AoC2021.Day7 do
   def getCheapestFuelAlignment(inputPath, rateIncrease) do
-    alignments = AoC2021.readFileAndParseFirstLineAsIntegerList(inputPath)
-    calculateMostEfficientPath(alignments, [
-      buildPointAndFuelCost(alignments, Enum.min(alignments), rateIncrease),
-      buildPointAndFuelCost(alignments, Enum.max(alignments), rateIncrease),
-    ], rateIncrease)
+    AoC2021.readFileAndParseFirstLineAsIntegerList(inputPath)
+      |> (&(calculateMostEfficientPath(&1, [
+      buildPointAndFuelCost(&1, Enum.min(&1), rateIncrease),
+      buildPointAndFuelCost(&1, Enum.max(&1), rateIncrease),
+    ], rateIncrease))).()
   end
 
-  def calculateMostEfficientPath(alignments, [{ left, leftCost }, { right, rightCost }], rateIncrease) do
+  defp calculateMostEfficientPath(alignments, [{ left, leftCost }, { right, rightCost }], rateIncrease) do
     middlePointFuelCost = buildPointAndFuelCost(alignments, div(left + right, 2), rateIncrease)
 
     cond do
@@ -17,10 +17,8 @@ defmodule AoC2021.Day7 do
       rightCost == leftCost -> rightCost
     end
   end
-
-  def buildPointAndFuelCost(alignments, point, rateIncrease) do {point,calculateFuelCostToPoint(alignments, point, rateIncrease)} end
-
-  def calculateFuelCostToPoint(alignments, point, rateIncrease) do
+  
+  defp calculateFuelCostToPoint(alignments, point, rateIncrease) do
     Enum.reduce(alignments, 0, fn(pos, fuelCost) -> 
       distance = abs(point - pos)
       endPoint = if rateIncrease, do: distance , else: 1
@@ -28,5 +26,9 @@ defmodule AoC2021.Day7 do
     end)
   end
 
-  def arithmeticSeriesSum(n, xn) do div(n * (1 + xn), 2) end
+  defp buildPointAndFuelCost(alignments, point, rateIncrease) do 
+    { point, calculateFuelCostToPoint(alignments, point, rateIncrease) } 
+  end
+
+  defp arithmeticSeriesSum(n, xn) do div(n * (1 + xn), 2) end
 end
