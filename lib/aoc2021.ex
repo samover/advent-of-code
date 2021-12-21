@@ -25,5 +25,5 @@ defmodule AoC2021 do
   def subtractArrays(_, _, _), do: nil
 
   def is_empty?(list) when is_list(list), do: Enum.count(list) == 0
-  def is_empty?(list), do: true
+  def is_empty?(_), do: true
 end
