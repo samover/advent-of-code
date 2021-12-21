@@ -2,7 +2,6 @@ defmodule Day8Test do
   use ExUnit.Case
   doctest AoC2021.Day8
 
-  @tag :runOnly
   test "test input - count only numbers that use a unique number of segments" do
     assert AoC2021.Day8.countEasyOutputDigits(Path.expand("./test/resources/day8_test_input")) == 26
   end
