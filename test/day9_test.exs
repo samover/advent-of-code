@@ -5,4 +5,7 @@ defmodule Day9Test do
   test "test input -sum of the risk levels of all low points on your heightmap " do
     assert AoC2021.Day9.getHeightMapRiskLevel(Path.expand("./test/resources/day9_test_input")) == 15
   end
+  test "real input -sum of the risk levels of all low points on your heightmap " do
+    assert AoC2021.Day9.getHeightMapRiskLevel(Path.expand("./test/resources/day9_real_input")) == 494
+  end
 end
