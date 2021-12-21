@@ -6,12 +6,6 @@ defmodule AoC2021.Day8 do
       |> Enum.count
   end
 
-  defp filterStringsByLength(list, filter) do
-    Enum.filter(list, fn(item) -> Enum.any?(filter, fn(i) ->
-      String.length(item) == i end)
-    end)
-  end
-
   def sumDisplayOutput(inputPath) do
     parseInput(inputPath)
       |> Enum.map(&readDisplay/1)
@@ -19,18 +13,13 @@ defmodule AoC2021.Day8 do
   end
 
   def readDisplay([uniquePatterns, displayOutput]) do
+    segmentDictionary = buildSegmentDictionary(uniquePatterns)
     Enum.map(displayOutput, fn(outputSegment) ->
-      {digit,_} = Enum.find(buildSegmentDictionary(uniquePatterns), fn({_,seg}) ->
-        areSegmentsEqual?(seg, outputSegment) end)
-      digit
+      Enum.find(segmentDictionary, &(areSegmentsEqual?(elem(&1,1), outputSegment)))
     end)
+    |> Enum.map(&elem(&1, 0))
     |> Enum.join("")
     |> String.to_integer
-  end
-
-  def areSegmentsEqual?(segA, segB) do
-    String.length(segA) == String.length(segB) &&
-      Enum.empty?(String.split(segA, "", trim: true) -- String.split(segB, "", trim: true))
   end
 
   def lookupByLength(segment) do
@@ -42,7 +31,7 @@ defmodule AoC2021.Day8 do
       true -> nil
     end
   end
-  @spec lookupBySimilarity(binary, any) :: nil | {0 | 3 | 6 | 9, binary}
+
   def lookupBySimilarity(segment, patterns) do
     cond do
       zero?(segment, patterns) -> { 0, segment }
@@ -61,27 +50,23 @@ defmodule AoC2021.Day8 do
   def four?(segment) do String.length(segment) == 4 end
   def seven?(segment) do String.length(segment) == 3 end
   def eight?(segment) do String.length(segment) == 7 end
-
-
   def five?(segment, knownSegments) do
     segmentToMatch = getSegment(knownSegments, 9) -- (getSegment(knownSegments, 8) -- getSegment(knownSegments, 6))
-    String.split(segment, "", trim: true) -- segmentToMatch == []
+    Enum.empty?(String.split(segment, "", trim: true) -- segmentToMatch)
   end
 
   def getSegment(knownSegments, digit) do
-    Enum.find(knownSegments, fn({d,_}) -> d == digit end)
+    Enum.find(knownSegments, &(elem(&1, 0) == digit))
       |> elem(1)
       |> String.split("", trim: true)
   end
 
   def matchesPattern?(segment, knownPatterns, matchingPatterns \\ []) do
-    Enum.filter(knownPatterns, fn({digit,_}) -> Enum.all?(matchingPatterns, fn(pattern) -> pattern != digit end) end)
-      |> Enum.map(fn({_,seg}) -> seg end)
-      |> Enum.all?(fn(pattern) -> !stringContains(segment, pattern) end)
+    Enum.filter(knownPatterns, fn({digit,_}) -> Enum.all?(matchingPatterns, &(&1 != digit)) end)
+      |> Enum.map(&(elem(&1, 1))) |> Enum.all?(&(!stringContains(segment, &1)))
       &&
-    Enum.filter(knownPatterns, fn({digit,_}) -> Enum.any?(matchingPatterns, fn(pattern) -> pattern == digit end) end)
-      |> Enum.map(fn({_,seg}) -> seg end)
-      |> Enum.all?(fn(pattern) -> stringContains(segment, pattern) end)
+    Enum.filter(knownPatterns, fn({digit,_}) -> Enum.any?(matchingPatterns, &(&1 == digit)) end)
+      |> Enum.map(&(elem(&1, 1))) |> Enum.all?(&stringContains(segment, &1))
   end
 
   def buildSegmentDictionary(encodedSegments) do
@@ -96,11 +81,24 @@ defmodule AoC2021.Day8 do
     Enum.concat(secondPass, thirdPass)
   end
 
-  def stringContains(a, b) do
+  # STRING OPERATIONS
+  defp stringContains(a, b) do
     Enum.count(String.split(a, "") -- String.split(b, "")) == String.length(a) - String.length(b)
   end
 
-  def parseInput(path) do
+  defp areSegmentsEqual?(segA, segB) do
+    String.length(segA) == String.length(segB) &&
+      Enum.empty?(String.split(segA, "", trim: true) -- String.split(segB, "", trim: true))
+  end
+
+  defp filterStringsByLength(list, filter) do
+    Enum.filter(list, fn(item) -> Enum.any?(filter, fn(i) ->
+      String.length(item) == i end)
+    end)
+  end
+
+  # READ FILE
+  defp parseInput(path) do
     AoC2021.readFileAsListLineByLine(path)
     |> Enum.map(fn(line) -> String.split(line, "|")
       |> Enum.map(fn(line) -> String.split(line) end) end)
