@@ -2,7 +2,6 @@ defmodule AoC2021. Day9 do
   def get_height_map_risk_level(input_path) do
     {line_length, height_map} = parse_input(input_path)
       find_low_point({line_length, height_map})
-      # |> inspect_output(height_map, line_length)
       |> Enum.map(&(elem(&1, 0) + 1))
       |> Enum.sum
   end
@@ -17,6 +16,7 @@ defmodule AoC2021. Day9 do
       |> Enum.product
   end
 
+  # needs refactoring. not readable and not very elegant
   def map_bassin(line_length, height_map, unexplored_bassin, explored_bassin \\ []) do
     map = Enum.flat_map(unexplored_bassin, fn({_,x}) ->
       Enum.map(adjacent_locations(x, line_length), &({Enum.at(height_map, &1), &1}))
@@ -36,44 +36,15 @@ defmodule AoC2021. Day9 do
       |> Enum.filter(fn({x, i}) -> low_point?(x, i, {line_length, lines}) end)
   end
 
-  def list_low_points_with_adjacent_points(input_path) do
-    {line_length, lines} = parse_input(input_path)
-    find_low_point({line_length, lines})
-      |> Enum.map(fn {x, i} -> {x, i, Enum.map(adjacent_locations(i, line_length), &(Enum.at(lines, &1)))} end)
-  end
-
-  def inspect_output(low_points, points, line_length) do
-    low_points_index = Enum.map(low_points, &(elem(&1, 1)))
-    Enum.with_index(points)
-      |> Enum.each(fn({x, i}) ->
-        if Enum.any?(low_points_index, fn(j) -> i == j end) do
-          if i != 0 && rem(i, line_length) == 0 do
-            IO.write("\n#{IO.ANSI.red()}#{x}#{IO.ANSI.white()}")
-          else
-            IO.write("#{IO.ANSI.red()}#{x}#{IO.ANSI.white()}")
-          end
-        else
-          if i != 0 && rem(i, line_length) == 0 do
-            IO.write("\n#{x}")
-          else
-            IO.write("#{x}")
-          end
-        end
-      end)
-    low_points
-  end
-
   defp low_point?(height, pos, {line_length, height_map}) do
     Enum.map(adjacent_locations(pos, line_length), &(Enum.at(height_map, &1)))
       |> Enum.all?(&(&1 > height))
   end
 
-  # returns index
   defp adjacent_locations(pos, l) do
     Enum.filter([up(l, pos), down(l, pos), right(l, pos), left(l, pos)], &(!is_nil(&1)))
   end
 
-  # READ FILE
   defp parse_input(path) do
     input = AoC2021.readFileAsListLineByLine(path)
     line_length = String.length(Enum.at(input, 0))
