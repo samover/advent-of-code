@@ -16,4 +16,10 @@ defmodule Day10Test do
   test "real input -sum of the risk levels of all low points on your heightmap", %{real_input: input} do
     assert AoC2021.Day10.check_syntax(input) == 344_193
   end
+  test "test input - autocomplete", %{test_input: input} do
+    assert AoC2021.Day10.complete_uncorrupted_lines(input) == 288_957
+  end
+  test "real input - autocomplete", %{real_input: input} do
+    assert AoC2021.Day10.complete_uncorrupted_lines(input) == 3_241_238_967
+  end
 end
