@@ -1,4 +1,4 @@
-defmodule AoC2021. Day9 do
+defmodule AoC2021.Day9 do
   def get_height_map_risk_level(input_path) do
     {line_length, height_map} = parse_input(input_path)
       find_low_point({line_length, height_map})
