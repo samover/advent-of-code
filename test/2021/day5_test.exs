@@ -3,19 +3,19 @@ defmodule Day5Test do
   doctest AoC2021.Day5
 
   test "test input - find hydrothermal vents (no diagonals)" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_test_input"), :noDiagonals) == 5
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/2021/resources/day5_test_input"), :noDiagonals) == 5
   end
 
   test "real input - find hydrothermal vents (no diagonals)" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_real_input"), :noDiagonals) == 5084
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/2021/resources/day5_real_input"), :noDiagonals) == 5084
   end
 
   test "test input - find hydrothermal vents (with diagonals)" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_test_input")) == 12
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/2021/resources/day5_test_input")) == 12
   end
 
   test "real input - find hydrothermal vents (with diagonals)" do
-    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/resources/day5_real_input")) == 17882
+    assert AoC2021.Day5.findHydroThermalDangerPoints(Path.expand("./test/2021/resources/day5_real_input")) == 17882
   end
 
   describe "drawLine" do

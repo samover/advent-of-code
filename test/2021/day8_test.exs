@@ -3,10 +3,10 @@ defmodule Day8Test do
   doctest AoC2021.Day8
 
   test "test input - count only numbers that use a unique number of segments" do
-    assert AoC2021.Day8.countEasyOutputDigits(Path.expand("./test/resources/day8_test_input")) == 26
+    assert AoC2021.Day8.countEasyOutputDigits(Path.expand("./test/2021/resources/day8_test_input")) == 26
   end
   test "real input - count only numbers that use a unique number of segments" do
-    assert AoC2021.Day8.countEasyOutputDigits(Path.expand("./test/resources/day8_real_input")) == 367
+    assert AoC2021.Day8.countEasyOutputDigits(Path.expand("./test/2021/resources/day8_real_input")) == 367
   end
 
   test "&buildSegmentDictionary/1" do
@@ -16,11 +16,11 @@ defmodule Day8Test do
   end
 
   test "read display (test input)" do
-    assert AoC2021.Day8.sumDisplayOutput(Path.expand("./test/resources/day8_test_input")) == 61229
+    assert AoC2021.Day8.sumDisplayOutput(Path.expand("./test/2021/resources/day8_test_input")) == 61229
   end
 
   test "read display (real input)" do
-    assert AoC2021.Day8.sumDisplayOutput(Path.expand("./test/resources/day8_real_input")) == 974512
+    assert AoC2021.Day8.sumDisplayOutput(Path.expand("./test/2021/resources/day8_real_input")) == 974512
   end
 
   describe "matchesPattern?/3" do

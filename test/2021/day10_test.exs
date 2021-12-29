@@ -4,10 +4,10 @@ defmodule Day10Test do
 
   setup_all [:read_test_input, :read_real_input]
   defp read_test_input(_context) do
-    [test_input: ReadInput.line_list(Path.expand("./test/resources/day10_test_input"))]
+    [test_input: ReadInput.line_list(Path.expand("./test/2021/resources/day10_test_input"))]
   end
   defp read_real_input(_context) do
-    [real_input: ReadInput.line_list(Path.expand("./test/resources/day10_real_input"))]
+    [real_input: ReadInput.line_list(Path.expand("./test/2021/resources/day10_real_input"))]
   end
 
   test "test input -sum of the risk levels of all low points on your heightmap", %{test_input: input} do
